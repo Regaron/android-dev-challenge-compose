@@ -21,13 +21,39 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Female
+import androidx.compose.material.icons.outlined.Male
+import androidx.compose.material.icons.outlined.Pets
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -159,7 +185,7 @@ val puppies =
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
-    //for retaining scroll position on nav change
+    // for retaining scroll position on nav change
     val listState = rememberLazyListState()
     val favorites = remember {
         mutableStateListOf<Int>()
@@ -202,25 +228,27 @@ fun Home(
     isFavorite: (Int) -> Boolean,
     toggleFavorite: (Int) -> Boolean
 ) {
-    Scaffold(topBar = {
-        Row(modifier = Modifier.padding(18.dp)) {
-            Column {
-                Surface(contentColor = Color(224, 167, 31)) {
-                    Icon(
-                        imageVector = Icons.Filled.Pets,
-                        contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+    Scaffold(
+        topBar = {
+            Row(modifier = Modifier.padding(18.dp)) {
+                Column {
+                    Surface(contentColor = Color(224, 167, 31)) {
+                        Icon(
+                            imageVector = Icons.Filled.Pets,
+                            contentDescription = null,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                    Text(
+                        "Adopt your next\nbest friend",
+                        style = MaterialTheme.typography.h4,
+                        fontWeight = FontWeight(800),
+                        modifier = Modifier.padding(vertical = 12.dp),
                     )
                 }
-                Text(
-                    "Adopt your next\nbest friend",
-                    style = MaterialTheme.typography.h4,
-                    fontWeight = FontWeight(800),
-                    modifier = Modifier.padding(vertical = 12.dp),
-                )
             }
         }
-    }) { innerPadding ->
+    ) { innerPadding ->
         LazyColumn(
             Modifier
                 .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
@@ -238,7 +266,7 @@ fun Home(
                     modifier = Modifier
                         .clip(RoundedCornerShape(24.dp))
                         .clickable {
-                            navController.navigate(route = "detail/${index}")
+                            navController.navigate(route = "detail/$index")
                         }
                 ) {
                     Row(
@@ -299,18 +327,20 @@ fun Detail(
     toggleFavorite: (Int) -> Boolean
 ) {
     val puppy = remember { puppies[index] }
-    Scaffold(topBar = {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            IconButton(onClick = { navController.navigate(route = "home") }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+    Scaffold(
+        topBar = {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                IconButton(onClick = { navController.navigate(route = "home") }) {
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                }
+                FavoriteIcon(
+                    isFavorite = isFavorite(index),
+                    toggleFavorite = { toggleFavorite(index) },
+                    modifier = Modifier.weight(1f)
+                )
             }
-            FavoriteIcon(
-                isFavorite = isFavorite(index),
-                toggleFavorite = { toggleFavorite(index) },
-                modifier = Modifier.weight(1f)
-            )
         }
-    }) {
+    ) {
         Column(modifier = Modifier.padding(18.dp)) {
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
@@ -330,7 +360,8 @@ fun Detail(
             Row(modifier = Modifier.padding(vertical = 6.dp)) {
                 Text(puppy.breed, modifier = Modifier.weight(1f))
                 Text(
-                    "${puppy.age} months old", modifier = Modifier
+                    "${puppy.age} months old",
+                    modifier = Modifier
                         .weight(1f)
                         .wrapContentWidth(Alignment.End)
                 )
@@ -426,13 +457,13 @@ fun FavoriteIcon(
     }
 }
 
-//@Preview("Light Theme", widthDp = 360, heightDp = 640)
-//@Composable
-//fun LightPreview() {
-//    MyTheme {
-//        MyApp()
-//    }
-//}
+@Preview("Light Theme", widthDp = 360, heightDp = 640)
+@Composable
+fun LightPreview() {
+    MyTheme {
+        MyApp()
+    }
+}
 
 @Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable

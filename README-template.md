@@ -1,18 +1,18 @@
-# Put title of your app here
+# Pup Adoption
 
 <!--- Replace <OWNER> with your Github Username and <REPOSITORY> with the name of your repository. -->
 <!--- You can find both of these in the url bar when you open your repository in github. -->
-![Workflow result](https://github.com/<OWNER>/<REPOSITORY>/workflows/Check/badge.svg)
+![Workflow result](https://github.com/Regaron/android-dev-challenge-week-1/workflows/Check/badge.svg)
 
 
 ## :scroll: Description
 <!--- Describe your app in one or two sentences -->
-
+A puppy adoption app made using jetpack compose which has overview screen and detail screen.
 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
 <!--- What are you especially proud of? -->
-
+Retaining the scroll position on screen change was easy using compose.
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
